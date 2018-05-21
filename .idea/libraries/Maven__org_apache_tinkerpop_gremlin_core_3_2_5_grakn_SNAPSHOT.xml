@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.apache.tinkerpop:gremlin-core:3.2.5-grakn-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/tinkerpop/gremlin-core/3.2.5-grakn-SNAPSHOT/gremlin-core-3.2.5-grakn-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/tinkerpop/gremlin-core/3.2.5-grakn-SNAPSHOT/gremlin-core-3.2.5-grakn-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/tinkerpop/gremlin-core/3.2.5-grakn-SNAPSHOT/gremlin-core-3.2.5-grakn-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

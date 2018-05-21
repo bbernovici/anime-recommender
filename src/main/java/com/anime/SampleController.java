@@ -5,8 +5,7 @@ package com.anime;
  */
 
 
-import com.anime.grakn.Migrator;
-import com.anime.grakn.SchemaCreator;
+import com.anime.neo4j.Neo4jConnector;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.stereotype.*;
@@ -24,8 +23,8 @@ public class SampleController {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(SampleController.class, args);
-        SchemaCreator.createSchema();
-        SchemaCreator.defineRules();
-        Migrator.migrateAnimeCSV();
+        Neo4jConnector.getSession();
+//        SchemaCreator.createSchema();
+//        SchemaCreator.defineRules();
     }
 }

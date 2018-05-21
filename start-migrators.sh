@@ -6,43 +6,43 @@ is_migrate=0
 load_schema() {
     echo "Loading the anime schema into grakn"
     # Load schema into grakn
-    graql console -f grakn-schema/anime-schema.gql -k anime
+    ~/grakn-dist-1.2.0/graql console -f anime-schema.gql -k anime
 }
 
 migrate_anime() {
     echo "Migrating the anime.csv to grakn"
     sleep 5s
     # Migrate the anime.csv to grakn
-    graql migrate csv -i anime-recommendations-csv/anime.csv -t grakn-schema/migrator/anime-migrator.gql -k anime
+    ~/grakn-dist-1.2.0/graql migrate csv -i csv/anime.csv -t migrator/anime-migrator.gql -k anime
 }
 
 migrate_genre() {
     echo "Migrating the genre.csv to grakn"
     sleep 5s
     # Migrate the genre.csv to grakn
-    graql migrate csv -i anime-recommendations-csv/genre.csv -t grakn-schema/migrator/genre-migrator.gql -k anime
+    ~/grakn-dist-1.2.0/graql migrate csv -i csv/genre.csv -t migrator/genre-migrator.gql -k anime
 }
 
 migrate_anime_genre() {
     echo "Migrating the anime_genre.csv to grakn"
     sleep 5s
     # # Migrate the anime_genre.csv to grakn
-    graql migrate csv -i anime-recommendations-csv/anime_genre.csv -t grakn-schema/migrator/genre-anime-migrator.gql -k anime
+    ~/grakn-dist-1.2.0/graql migrate csv -i csv/anime_genre.csv -t migrator/genre-anime-migrator.gql -k anime
 }
 
 migrate_user() {
     echo "Migrating the user.csv to grakn"
     sleep 5s
     # Migrate the user.csv to grakn
-    graql migrate csv -i anime-recommendations-csv/user.csv -t grakn-schema/migrator/user-migrator.gql -k anime
+    ~/grakn-dist-1.2.0/graql migrate csv -i csv/user.csv -t migrator/user-migrator.gql -k anime
 }
 
 migrate_user_anime() {
     # Migrate the user_anime.csv files to grakn
-    for csv_file in anime-recommendations-csv/user_anime_*.csv
+    for csv_file in csv/user_anime_*.csv
     do
         echo "Migrating the ${csv_file} to grakn"
-        graql migrate csv -i $csv_file -t grakn-schema/migrator/user-anime-migrator.gql -k anime
+        ~/grakn-dist-1.2.0/graql migrate csv -i $csv_file -t migrator/user-anime-migrator.gql -k anime
         sleep 5s
     done
 }

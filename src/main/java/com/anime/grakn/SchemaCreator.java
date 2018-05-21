@@ -1,9 +1,6 @@
 package com.anime.grakn;
 
-import ai.grakn.GraknTx;
 import ai.grakn.concept.AttributeType;
-import ai.grakn.concept.EntityType;
-import ai.grakn.concept.Role;
 import ai.grakn.concept.Rule;
 import ai.grakn.graql.Pattern;
 import ai.grakn.graql.QueryBuilder;
@@ -18,7 +15,7 @@ import static ai.grakn.graql.Graql.var;
 public class SchemaCreator {
 
     public static void createSchema() {
-        QueryBuilder qb = Connector.getSessionToWrite().graql();
+        QueryBuilder qb = GraknConnector.getSessionToWrite().graql();
 
         qb.define(
                 label("anime")
@@ -121,17 +118,17 @@ public class SchemaCreator {
 //        Pattern animeIsSimilarRuleWhen1 = var().rel("tagged", "anime_a").rel("tagger", "genre").isa("tagging");
 //        Pattern animeIsSimilarRuleWhen2 = var().rel("tagged", "anime_b").rel("tagger", "genre").isa("tagging");
 //        Pattern animeIsSimilarRuleThen = var().rel("tagged", "anime_a")
-        Pattern rule1when = and(Connector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_a, tagger: $genre) isa tagging;(tagged: $anime_b, tagger: $genre) isa tagging;"));
-//        Pattern rule1when2 = and(Connector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_b, tagger: $genre) isa tagging;"));
-        Pattern rule1then = and(Connector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_a, similar_to: $anime_b) isa similar_anime;"));
+        Pattern rule1when = and(GraknConnector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_a, tagger: $genre) isa tagging;(tagged: $anime_b, tagger: $genre) isa tagging;"));
+//        Pattern rule1when2 = and(Neo4jConnector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_b, tagger: $genre) isa tagging;"));
+        Pattern rule1then = and(GraknConnector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_a, similar_to: $anime_b) isa similar_anime;"));
 
-        Pattern rule2when = and(Connector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_c, tagger: $genre_a) isa tagging;(tagged: $anime_d, tagger: $genre_b) isa tagging;$genre_a != $genre_b;"));
-//        Pattern rule2when2 = and(Connector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_d, tagger: $genre_b) isa tagging;"));
-//        Pattern rule2when3 = and(Connector.getSessionToWrite().graql().parser().parsePatterns("$genre_a != $genre_b;"));
-        Pattern rule2then = and(Connector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_c, dissimilar_to: $anime_d) isa disimilar_anime;"));
+        Pattern rule2when = and(GraknConnector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_c, tagger: $genre_a) isa tagging;(tagged: $anime_d, tagger: $genre_b) isa tagging;$genre_a != $genre_b;"));
+//        Pattern rule2when2 = and(Neo4jConnector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_d, tagger: $genre_b) isa tagging;"));
+//        Pattern rule2when3 = and(Neo4jConnector.getSessionToWrite().graql().parser().parsePatterns("$genre_a != $genre_b;"));
+        Pattern rule2then = and(GraknConnector.getSessionToWrite().graql().parser().parsePatterns("(tagged: $anime_c, dissimilar_to: $anime_d) isa disimilar_anime;"));
 
-        Rule rule1 = Connector.getSessionToWrite().putRule("anime_is_similar", rule1when, rule1then);
-        Rule rule2 = Connector.getSessionToWrite().putRule("anime_is_not_similar", rule2when, rule2then);
+        Rule rule1 = GraknConnector.getSessionToWrite().putRule("anime_is_similar", rule1when, rule1then);
+        Rule rule2 = GraknConnector.getSessionToWrite().putRule("anime_is_not_similar", rule2when, rule2then);
 
     }
 }

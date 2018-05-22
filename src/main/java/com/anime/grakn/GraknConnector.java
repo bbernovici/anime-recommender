@@ -1,6 +1,7 @@
 package com.anime.grakn;
 
 import ai.grakn.*;
+import ai.grakn.factory.EmbeddedGraknSession;
 import ai.grakn.remote.RemoteGrakn;
 import ai.grakn.util.SimpleURI;
 

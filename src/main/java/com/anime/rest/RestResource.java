@@ -5,6 +5,8 @@ import ai.grakn.graql.GetQuery;
 import ai.grakn.graql.QueryBuilder;
 import ai.grakn.graql.admin.Answer;
 import com.anime.grakn.GraknConnector;
+import com.anime.neo4j.Neo4jConnector;
+import org.neo4j.driver.v1.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +17,30 @@ import org.springframework.web.bind.annotation.*;
  * Created by bbernovici on 22.05.2018.
  */
 import java.util.Map;
+import java.util.Random;
 
 import static ai.grakn.graql.Graql.var;
+import static org.neo4j.driver.v1.Values.parameters;
 
 
 @RestController
 public class RestResource {
 
-    @RequestMapping(value="/user/create/{name}",
+    @RequestMapping(value="/user/generate",
         method = RequestMethod.POST)
-    public ResponseEntity<?> createUserInNeo4j(@PathVariable String name) {
+    public ResponseEntity<?> createUserInNeo4j(@RequestParam String name) {
+
+        try( Session session = Neo4jConnector.getSession()) {
+
+            session.writeTransaction(new TransactionWork<Object>() {
+                @Override
+                public Object execute(Transaction transaction) {
+                    StatementResult stmt = transaction.run("CREATE (p:Person { name: $name }) RETURN p.name", parameters("name", name));
+                    System.out.println(stmt.single().get(0).toString());
+                    return stmt.single().get(0).toString();
+                }
+            });
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -69,6 +85,12 @@ public class RestResource {
             System.out.println(ans.get("y_title").asAttribute().getValue());
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public static Integer getRandomOffset() {
+        Random random = new Random();
+        int prefix = random.nextInt(200) + 10;
+        return prefix;
     }
 
 
